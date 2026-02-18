@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aurelia 🤍</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  text-align:center;
+  overflow:hidden;
+  background:linear-gradient(-45deg,#ffd6e7,#e6ccff,#ffe6f2,#f3ccff);
+  background-size:400% 400%;
+  animation:gradient 15s ease infinite;
+  color:white;
+  transition:2s;
+}
+@keyframes gradient{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+.night{
+  background:radial-gradient(circle at top,#0b001a,#000814);
+}
+.screen{
+  display:none;
+  height:100vh;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  padding:20px;
+  animation:fade 2s;
+}
+.active{display:flex;}
+@keyframes fade{from{opacity:0;}to{opacity:1;}}
+
+button{
+  padding:12px 25px;
+  border:none;
+  border-radius:30px;
+  margin:10px;
+  font-size:16px;
+  cursor:pointer;
+  background:white;
+  color:#ff69b4;
+  transition:0.3s;
+}
+button:hover{transform:scale(1.1);}
+
+#ringBox{
+  font-size:80px;
+  transition:1s;
+}
+.openBox{
+  transform:scale(1.3);
+  text-shadow:0 0 40px gold;
+}
+
+.star{
+  position:absolute;
+  width:2px;
+  height:2px;
+  background:white;
+  animation:twinkle 2s infinite alternate;
+}
+@keyframes twinkle{
+  from{opacity:0.3;}
+  to{opacity:1;}
+}
+
+.shooting{
+  position:absolute;
+  width:3px;
+  height:3px;
+  background:white;
+  box-shadow:0 0 10px white;
+  animation:shoot 1.5s linear forwards;
+}
+@keyframes shoot{
+  from{transform:translate(-10vw,-10vh);}
+  to{transform:translate(110vw,110vh);}
+}
+
+.zoom{
+  animation:zoomIn 3s ease forwards;
+}
+@keyframes zoomIn{
+  from{transform:scale(0.7); opacity:0;}
+  to{transform:scale(1); opacity:1;}
+}
+
+.confetti{
+  position:absolute;
+  font-size:20px;
+  animation:fall 3s linear forwards;
+}
+@keyframes fall{
+  from{transform:translateY(-10vh);}
+  to{transform:translateY(100vh);}
+}
+</style>
+</head>
+<body>
+
+<audio id="bgMusic" loop>
+  <source src="perfect.mp3" type="audio/mpeg">
+</audio>
+
+<div id="opening" class="screen active">
+  <h1>Hi Aurelia 🤍</h1>
+  <p>Aku punya sesuatu yang sangat spesial buat kamu...</p>
+  <button onclick="startStory()">✨ Mulai</button>
+  <button onclick="playMusic()">🎵 Play Our Song</button>
+</div>
+
+<div id="proposal" class="screen">
+  <h2 class="zoom">Aurelia...</h2>
+  <h2 class="zoom">Kamu adalah rumah.</h2>
+  <h2 class="zoom">Dan aku ingin kamu jadi selamanya.</h2>
+  <div id="ringBox">💎</div>
+  <h1 class="zoom">Will You Be Mine Forever?</h1>
+  <button onclick="accept()">💍 IYA</button>
+  <button onclick="accept()">💕 IYA BANGET</button>
+</div>
+
+<div id="final" class="screen">
+  <h1 class="zoom">😭💖</h1>
+  <h2 class="zoom">Aku nggak pernah butuh alasan buat sayang kamu.</h2>
+  <h2 class="zoom">Kamu adalah alasannya.</h2>
+  <h1 class="zoom">I Love You Forever, Aurelia ❤️</h1>
+</div>
+
+<script>
+function playMusic(){
+  document.getElementById("bgMusic").play();
+}
+
+function changeScreen(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+function startStory(){
+  document.body.classList.add("night");
+  createStars();
+  setTimeout(()=>changeScreen("proposal"),2000);
+  setTimeout(()=>shootingStar(),3000);
+}
+
+function createStars(){
+  for(let i=0;i<120;i++){
+    let star=document.createElement("div");
+    star.classList.add("star");
+    star.style.top=Math.random()*100+"vh";
+    star.style.left=Math.random()*100+"vw";
+    document.body.appendChild(star);
+  }
+}
+
+function shootingStar(){
+  let star=document.createElement("div");
+  star.classList.add("shooting");
+  star.style.top="10vh";
+  star.style.left="0vw";
+  document.body.appendChild(star);
+}
+
+document.getElementById("proposal").addEventListener("click",()=>{
+  document.getElementById("ringBox").classList.add("openBox");
+  document.getElementById("ringBox").innerHTML="💍";
+});
+
+function accept(){
+  changeScreen("final");
+  for(let i=0;i<80;i++){
+    let conf=document.createElement("div");
+    conf.classList.add("confetti");
+    conf.innerHTML="❤️";
+    conf.style.left=Math.random()*100+"vw";
+    document.body.appendChild(conf);
+    setTimeout(()=>conf.remove(),3000);
+  }
+}
+</script>
+
+</body>
+</html>
