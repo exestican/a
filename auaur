@@ -13,23 +13,8 @@ body{
   font-family:'Poppins',sans-serif;
   text-align:center;
   overflow:hidden;
-  background:linear-gradient(-45deg,#ffd6e7,#e6ccff,#ffe6f2,#f3ccff);
-  background-size:400% 400%;
-  animation:gradient 15s ease infinite;
+  background:black;
   color:white;
-  min-height:100vh;
-  transition:2s;
-}
-
-@keyframes gradient{
-  0%{background-position:0% 50%;}
-  50%{background-position:100% 50%;}
-  100%{background-position:0% 50%;}
-}
-
-body.night{
-  background:radial-gradient(circle at top,#0b001a,#000814);
-  animation:none;
 }
 
 .screen{
@@ -39,22 +24,16 @@ body.night{
   align-items:center;
   flex-direction:column;
   padding:20px;
-  animation:fade 1.5s;
+  position:relative;
 }
 
 .screen.active{display:flex;}
 
-@keyframes fade{
-  from{opacity:0;}
-  to{opacity:1;}
-}
-
-h1{font-size:2.5rem;margin:15px 0;text-shadow:0 0 20px rgba(255,255,255,0.5);}
-h2{font-size:1.8rem;margin:10px 0;font-weight:300;}
-p{font-size:1.2rem;margin:20px 0;}
+.fadeIn{animation:fade 2s forwards;}
+@keyframes fade{from{opacity:0;}to{opacity:1;}}
 
 button{
-  padding:12px 25px;
+  padding:12px 28px;
   border:none;
   border-radius:30px;
   margin:10px;
@@ -68,27 +47,10 @@ button{
 
 button:hover{
   transform:scale(1.1);
-  box-shadow:0 0 20px rgba(255,255,255,0.8);
+  box-shadow:0 0 20px #ff69b4;
 }
 
-#ringBox{
-  font-size:90px;
-  margin:30px 0;
-  cursor:pointer;
-  transition:0.8s;
-}
-
-.openBox{
-  animation:ringOpen 0.8s ease forwards;
-  text-shadow:0 0 40px gold;
-}
-
-@keyframes ringOpen{
-  0%{transform:scale(1);}
-  50%{transform:scale(1.3) rotate(10deg);}
-  100%{transform:scale(1.3);}
-}
-
+/* Night Sky */
 .star{
   position:fixed;
   width:2px;height:2px;
@@ -102,31 +64,43 @@ button:hover{
   50%{opacity:1;}
 }
 
-.shooting{
-  position:fixed;
-  width:3px;height:3px;
-  background:white;
-  border-radius:50%;
-  box-shadow:0 0 10px white;
-  animation:shoot 1.5s linear forwards;
+/* Ring */
+#ring{
+  font-size:100px;
+  margin:30px;
+  cursor:pointer;
+  transition:0.8s;
 }
 
-@keyframes shoot{
-  from{transform:translate(0,0);opacity:1;}
-  to{transform:translate(110vw,110vh);opacity:0;}
+.ringOpen{
+  transform:scale(1.3) rotate(10deg);
+  text-shadow:0 0 40px gold;
 }
 
-.confetti{
+/* Photo */
+.photo{
+  width:220px;
+  height:220px;
+  border-radius:20px;
+  object-fit:cover;
+  margin-top:20px;
+  box-shadow:0 0 40px rgba(255,105,180,0.7);
+  animation:fade 3s forwards;
+}
+
+/* Fireworks */
+.fire{
   position:fixed;
   font-size:24px;
-  animation:fall 3s linear forwards;
+  animation:boom 1.5s linear forwards;
 }
 
-@keyframes fall{
-  from{transform:translateY(-10vh);opacity:1;}
-  to{transform:translateY(100vh);opacity:0;}
+@keyframes boom{
+  from{transform:scale(0);opacity:1;}
+  to{transform:scale(3);opacity:0;}
 }
 
+/* Floating hearts */
 .heart{
   position:fixed;
   bottom:-20px;
@@ -138,6 +112,22 @@ button:hover{
   from{transform:translateY(0);opacity:1;}
   to{transform:translateY(-110vh);opacity:0;}
 }
+
+.typing{
+  border-right:2px solid white;
+  white-space:nowrap;
+  overflow:hidden;
+  animation:typing 4s steps(40) forwards, blink 1s infinite;
+}
+
+@keyframes typing{
+  from{width:0;}
+  to{width:100%;}
+}
+
+@keyframes blink{
+  50%{border-color:transparent;}
+}
 </style>
 </head>
 <body>
@@ -146,80 +136,69 @@ button:hover{
   <source src="perfect.mp3" type="audio/mpeg">
 </audio>
 
-<div id="opening" class="screen active">
-  <h1>Hi Aurelia 🤍</h1>
-  <p>Aku punya sesuatu yang sangat spesial buat kamu...</p>
-  <button onclick="startStory()">✨ Mulai</button>
+<div id="opening" class="screen active fadeIn">
+  <h1 class="typing">Hi Aurelia 🤍</h1>
+  <p style="margin-top:20px;">Ada sesuatu yang ingin aku katakan...</p>
+  <button onclick="start()">✨ Mulai</button>
 </div>
 
 <div id="proposal" class="screen">
-  <h2>Aurelia...</h2>
   <h2>Kamu adalah rumah.</h2>
   <h2>Dan aku ingin kamu jadi selamanya.</h2>
-  <div id="ringBox">💎</div>
+  <div id="ring">💎</div>
   <h1>Will You Be Mine Forever?</h1>
-  <button onclick="accept()">💍 IYA</button>
-  <button onclick="accept()">💕 IYA BANGET</button>
+  <button onclick="yes()">💍 IYA</button>
+  <button onclick="yes()">💕 IYA BANGET</button>
 </div>
 
 <div id="final" class="screen">
   <h1>😭💖</h1>
   <h2>Aku nggak pernah butuh alasan buat sayang kamu.</h2>
   <h2>Kamu adalah alasannya.</h2>
-  <h1>I Love You Forever, Aurelia ❤️</h1>
+  <img src="foto.jpg" class="photo">
+  <h1 style="margin-top:20px;">I Love You Forever ❤️</h1>
 </div>
 
 <script>
-function changeScreen(id){
+function change(id){
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 }
 
-function startStory(){
-  document.body.classList.add("night");
+function start(){
   createStars();
+  document.getElementById("bgm").volume=0.3;
   document.getElementById("bgm").play().catch(()=>{});
-  setTimeout(()=>changeScreen("proposal"),2000);
-  setTimeout(()=>shootingStar(),3000);
+  setTimeout(()=>change("proposal"),3000);
 }
 
 function createStars(){
-  for(let i=0;i<100;i++){
+  for(let i=0;i<150;i++){
     let star=document.createElement("div");
     star.classList.add("star");
     star.style.top=Math.random()*100+"vh";
     star.style.left=Math.random()*100+"vw";
-    star.style.animationDelay=Math.random()*3+"s";
     document.body.appendChild(star);
   }
 }
 
-function shootingStar(){
-  let star=document.createElement("div");
-  star.classList.add("shooting");
-  star.style.top="10vh";
-  star.style.left="0vw";
-  document.body.appendChild(star);
-  setTimeout(()=>star.remove(),1500);
-}
-
-document.addEventListener("DOMContentLoaded",()=>{
-  const ring=document.getElementById("ringBox");
-  ring.addEventListener("click",()=>{
-    ring.classList.add("openBox");
-    ring.innerHTML="💍";
-  });
+document.getElementById("ring").addEventListener("click",()=>{
+  let ring=document.getElementById("ring");
+  ring.classList.add("ringOpen");
+  ring.innerHTML="💍";
 });
 
-function accept(){
-  changeScreen("final");
-  for(let i=0;i<60;i++){
-    let conf=document.createElement("div");
-    conf.classList.add("confetti");
-    conf.innerHTML="❤️";
-    conf.style.left=Math.random()*100+"vw";
-    document.body.appendChild(conf);
-    setTimeout(()=>conf.remove(),3000);
+function yes(){
+  change("final");
+
+  for(let i=0;i<30;i++){
+    let fire=document.createElement("div");
+    fire.classList.add("fire");
+    fire.innerHTML="✨";
+    fire.style.top=Math.random()*100+"vh";
+    fire.style.left=Math.random()*100+"vw";
+    document.body.appendChild(fire);
+    setTimeout(()=>fire.remove(),1500);
   }
 
   setInterval(()=>{
